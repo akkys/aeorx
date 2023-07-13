@@ -1,4 +1,10 @@
 import React, { useState } from "react";
+import { ErrorField } from "../specialComponents/ErrorField";
+import { InputField } from "../specialComponents/InputField";
+import LabelField from "../specialComponents/LabelField";
+import TextareaField from "../specialComponents/TextareaField";
+import DateField from "../specialComponents/DateField";
+import NumberField from "../specialComponents/NumberField";
 
 const Employee = () => {
   const [name, setName] = useState("");
@@ -27,66 +33,53 @@ const Employee = () => {
 
   return (
     <div className="main_container">
-      <form onSubmit={handleSubmit}>
+      <>
         <section>
-          <label>Employee Name</label>
-          <input
-            type="text"
-            name="name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-          />
-          <br />
-          {error && name.length <= 0 ? (
-            <span>Name should not be empty.</span>
-          ) : (
-            ""
-          )}
+          <ErrorField error={error} value={name} name="Name">
+            <LabelField label="Name" />
+            <InputField
+              type="text"
+              name="name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
+          </ErrorField>
         </section>
         <section>
-          <label>Employee Address</label>
-          <textarea
-            type="text"
-            value={address}
-            onChange={(e) => setAddress(e.target.value)}
-          />
-          <br />
-          {error && address.length <= 0 ? (
-            <span>Address should not be empty.</span>
-          ) : (
-            ""
-          )}
+          <ErrorField error={error} value={address} name="Address">
+            <LabelField label="Address"/>
+            <TextareaField
+              type="text"
+              name="address"
+              value={address}
+              onChange={(e) => setAddress(e.target.value)}
+            />
+          </ErrorField>
         </section>
         <section>
-          <label>Age</label>
-          <input
-            type="date"
-            value={age}
-            onChange={(e) => setAge(e.target.value)}
-          />
-          <br />
-          {error && age.length <= 0 ? (
-            <span>Age should not be empty.</span>
-          ) : (
-            ""
-          )}
+          <ErrorField error={error} value={age} name="Age">
+            <LabelField label="Age"/>
+            <DateField
+              type="date"
+              name="age"
+              value={age}
+              onChange={(e) => setAge(e.target.value)}
+            />
+          </ErrorField>
         </section>
         <section>
-          <label>Salary</label>
-          <input
-            type="number"
-            value={salary}
-            onChange={(e) => setSalary(e.target.value)}
-          />
-          <br />
-          {error && salary.length <= 0 ? (
-            <span>Salary should not be empty.</span>
-          ) : (
-            ""
-          )}
+          <ErrorField error={error} value={salary} name="Salary">
+            <LabelField label="Salary"/>
+            <NumberField
+              type="number"
+              name="salary"
+              value={salary}
+              onChange={(e) => setSalary(e.target.value)}
+            />
+          </ErrorField>
         </section>
-        <button type="submit">Submit</button>
-      </form>
+        <button onClick={handleSubmit}>Submit</button>
+      </>
     </div>
   );
 };
