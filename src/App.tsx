@@ -1,19 +1,17 @@
-import { useState } from 'react'
-import './App.css'
-import {BrowserRouter, Routes,Route} from 'react-router-dom'
-import { Company } from './components/company/Company'
-import Employee from './components/employee/Employee'
+import { useState } from "react"
+import "./App.css"
+import { BrowserRouter, Route, Routes } from "react-router-dom"
+import { Company } from "./Components/Company/Company"
+import Employee from "./Components/Employee/Employee"
+// import { Routes } from 'react-router-dom/dist/index'
 
-function App() {
+export function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path='/capture/company' element={<Company/>} />
-        <Route path='/capture/employee' element={<Employee/>} />
+        <Route path="/capture/company" element={<Company />} />
+        <Route path="/capture/employee" element={<Employee />} />
       </Routes>
-      
     </BrowserRouter>
   )
 }
-
-export default App
