@@ -1,9 +1,7 @@
-import { useState } from "react"
-import "./App.css"
 import { BrowserRouter, Route, Routes } from "react-router-dom"
 import { Company } from "./Components/Company/Company"
 import Employee from "./Components/Employee/Employee"
-// import { Routes } from 'react-router-dom/dist/index'
+import { NewCompany } from "./Components/Company/NewCompany"
 
 export function App() {
   return (
@@ -11,6 +9,7 @@ export function App() {
       <Routes>
         <Route path="/capture/company" element={<Company />} />
         <Route path="/capture/employee" element={<Employee />} />
+        <Route path="/capture/newCompany" element={<NewCompany />} />
       </Routes>
     </BrowserRouter>
   )

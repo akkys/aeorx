@@ -1,25 +1,35 @@
-import React, { useState } from "react"
-import { ErrorField } from "../BasicComponents/ErrorField"
-import { InputField } from "../BasicComponents/InputField"
-import LabelField from "../BasicComponents/LabelField"
-import TextareaField from "../BasicComponents/TextareaField"
-import DateField from "../BasicComponents/DateField"
-import NumberField from "../BasicComponents/NumberField"
+import { useState } from "react"
+import { Error } from "../BasicComponents/Error"
+import { Input } from "../BasicComponents/Input"
+import { Label } from "../BasicComponents/Label"
+import { Textarea } from "../BasicComponents/Textarea"
+import { Date } from "../BasicComponents/Date"
+import { Number } from "../BasicComponents/Number"
 
 const Employee = () => {
   const [name, setName] = useState("")
   const [address, setAddress] = useState("")
   const [age, setAge] = useState("")
   const [salary, setSalary] = useState("")
-  const [error, setError] = useState(false)
+  const [errObj, setErrObj] = useState({} as any)
 
-  const validate = () => {
-    if (!name || !address || !age || !salary) return setError(true)
-  }
+  const handleSubmit = () => {
+    var _errObj = {} as any
 
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    validate()
+    if (!name) {
+      _errObj.name = "Please enter Name"
+    }
+    if (!address) {
+      _errObj.name = "Please enter address"
+    }
+    if (!age) {
+      _errObj.name = "Please enter age"
+    }
+    if (!salary) {
+      _errObj.name = "Please enter salary"
+    }
+    setErrObj(_errObj)
+
     let empData = {
       name,
       address,
@@ -35,48 +45,47 @@ const Employee = () => {
     <div className="main_container">
       <>
         <section>
-          <ErrorField error={error} value={name} name="Name">
-            <LabelField label="Name" />
-            <InputField
+          <Error value={errObj.name}>
+            <Label>Name</Label>
+            <Input
               type="text"
               name="name"
               value={name}
               onChange={(e) => setName(e.target.value)}
             />
-          </ErrorField>
+          </Error>
         </section>
         <section>
-          <ErrorField error={error} value={address} name="Address">
-            <LabelField label="Address" />
-            <TextareaField
-              type="text"
+          <Error value={errObj.address}>
+            <Label>Address</Label>
+            <Textarea
               name="address"
               value={address}
               onChange={(e) => setAddress(e.target.value)}
             />
-          </ErrorField>
+          </Error>
         </section>
         <section>
-          <ErrorField error={error} value={age} name="Age">
-            <LabelField label="Age" />
-            <DateField
+          <Error value={errObj.age}>
+            <Label>Age</Label>
+            <Date
               type="date"
               name="age"
               value={age}
               onChange={(e) => setAge(e.target.value)}
             />
-          </ErrorField>
+          </Error>
         </section>
         <section>
-          <ErrorField error={error} value={salary} name="Salary">
-            <LabelField label="Salary" />
-            <NumberField
+          <Error value={errObj.salary}>
+            <Label>Salary</Label>
+            <Number
               type="number"
               name="salary"
               value={salary}
               onChange={(e) => setSalary(e.target.value)}
             />
-          </ErrorField>
+          </Error>
         </section>
         <button onClick={handleSubmit}>Submit</button>
       </>

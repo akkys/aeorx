@@ -1,78 +1,89 @@
-import React, { useState } from "react"
-import { InputField } from "../BasicComponents/InputField"
-import { ErrorField } from "../BasicComponents/ErrorField"
-import { LabelField } from "../BasicComponents/LabelField"
-import TextareaField from "../BasicComponents/TextareaField"
-import DateField from "../BasicComponents/DateField"
-import NumberField from "../BasicComponents/NumberField"
-import { getInputEventValue } from "../../Utils/Helpers"
+import { useState } from "react"
+import { Input } from "../BasicComponents/Input"
+import { Label } from "../BasicComponents/Label"
+import { Textarea } from "../BasicComponents/Textarea"
+import { Date } from "../BasicComponents/Date"
+import { Number } from "../BasicComponents/Number"
+import { getInputEventValue, getTextareaEventValue } from "../../Utils/Helpers"
+import { Error } from "../BasicComponents/Error"
 
 export const Company = () => {
-  const [compName, setCompName] = useState("")
+  const [compName, setCompName] = useState({
+    value: "",
+    err: "",
+  })
   const [address, setAddress] = useState("")
   const [yearOfReg, setYearOfReg] = useState("")
   const [revenue, setRevenue] = useState("")
-  const [error, setError] = useState(false)
+  const [errObj, setErrObj] = useState({} as any)
+  // console.log(compName.value)
+  const handleSubmit = () => {
+    console.log("compName", compName)
+    var _errObj = {} as any
+    if (!compName.value) {
+      setCompName((prev) => ({
+        ...prev,
+        err: "Please enter company name",
+      }))
+    }
 
-  const validate = () => {
-    if (!compName || !address || !yearOfReg || !revenue) return setError(true)
-  }
+    if (!address) {
+      _errObj.address = "Please enter address"
+    }
+    if (!yearOfReg) {
+      _errObj.yearOfReg = "Please enter year of registration"
+    }
+    if (!revenue) {
+      _errObj.revenue = "Please enter revenue"
+    }
+    setErrObj(_errObj)
 
-  const handleSubmit = (e: React.ChangeEvent<HTMLButtonElement>) => {
-    e.preventDefault()
-    validate()
     let cmpyData = {
       compName,
       address,
       yearOfReg,
       revenue,
     }
+
     if (compName && address && yearOfReg && revenue) {
       console.log("Company Data", cmpyData)
     }
   }
 
   const onNameChange = getInputEventValue(setCompName)
+  const onAddressChange = getTextareaEventValue(setAddress)
+  const onDateChange = getInputEventValue(setYearOfReg)
+  const onRevenueChange = getInputEventValue(setRevenue)
 
   return (
     <>
-      <ErrorField error={error}>
-        <LabelField>Name</LabelField>
-        <InputField
+      <Error value={compName.err}>
+        <Label>Name</Label>
+        <Input
           type="text"
           name="compName"
-          value={compName}
+          value={compName.value}
           onChange={onNameChange}
         />
-      </ErrorField>
+      </Error>
+      <Error value={errObj.address}>
+        <Label>Address</Label>
+        <Textarea name="address" value={address} onChange={onAddressChange} />
+      </Error>
 
-      <ErrorField error={error}>
-        <LabelField>Address</LabelField>
-        <TextareaField
-          type="text"
-          name="address"
-          value={address}
-          onChange={(e) => setAddress(e.target.value)}
-        />
-      </ErrorField>
-      <ErrorField error={error}>
-        <LabelField>Year of Registration</LabelField>
-        <DateField
-          type="date"
-          name="yearOfReg"
-          value={yearOfReg}
-          onChange={(e) => setYearOfReg(e.target.value)}
-        />
-      </ErrorField>
-      <ErrorField error={error}>
-        <LabelField>Revenue</LabelField>
-        <NumberField
+      <Error value={errObj.yearOfReg}>
+        <Label>Year of Registration</Label>
+        <Date name="yearOfReg" value={yearOfReg} onChange={onDateChange} />
+      </Error>
+      <Error value={errObj.revenue}>
+        <Label>Revenue</Label>
+        <Number
           type="number"
           name="revenue"
           value={revenue}
-          onChange={(e) => setRevenue(e.target.value)}
+          onChange={onRevenueChange}
         />
-      </ErrorField>
+      </Error>
       <button onClick={handleSubmit}>Submit</button>
     </>
   )
